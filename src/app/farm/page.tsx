@@ -6,6 +6,7 @@ import UnlockModal from "@/components/UnlockModal/UnlockModal";
 import BoostModal from "@/components/BoostModal/BoostModal";
 import Breadcrumbs from "@/components/Breadcrumbs/Breadcrumbs";
 import TransactionConfirmModal from "@/components/TransactionConfirmModal/TransactionConfirmModal";
+import { formatFeeEstimate } from "@/lib/fees";
 import { EarningRow, MetricColumn } from "@/app/farm/EarningRow";
 import { FarmPoolRow } from "@/app/farm/FarmPoolRow";
 import {
@@ -239,7 +240,7 @@ function DepositModal({
                   {feePreview.isFetching
                     ? "Simulating..."
                     : feePreview.data
-                      ? `${feePreview.data.feePreview} stroops`
+                      ? formatFeeEstimate(feePreview.data.feePreview) ?? "Unavailable"
                       : "Enter amount"}
                 </Text>
               </Flex>
@@ -407,11 +408,13 @@ function DepositModal({
           { label: "Pool", value: farm.name },
           { label: "Deposit amount", value: `${trimmedAmount} ${farm.symbol}` },
           { label: "Minimum lock period", value: lockPeriod },
-          {
-            label: "Estimated Soroban fee",
-            value: feePreview.data ? `${feePreview.data.feePreview} stroops` : "Unavailable",
-          },
         ]}
+        fee={{
+          minResourceFee: feePreview.data?.feePreview,
+          isLoading: feePreview.isFetching,
+          isError: feePreview.isError,
+          isSponsored: isFeeSponsored,
+        }}
         warning={`Deposited funds stay locked for at least ${lockPeriod} and can't be withdrawn before then.`}
         confirmLabel="Confirm Deposit"
       />
