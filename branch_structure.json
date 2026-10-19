@@ -1,0 +1,18 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "fix/skeleton-size-mismatch",
+    "main",
+    "origin"
+  ],
+  "parent": {
+    "fix/skeleton-size-mismatch": "main",
+    "main": null,
+    "origin": "main"
+  },
+  "order": [
+    "main",
+    "fix/skeleton-size-mismatch",
+    "origin"
+  ]
+}
